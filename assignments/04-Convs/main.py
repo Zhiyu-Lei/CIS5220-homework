@@ -62,8 +62,6 @@ def train(
         num_epochs (int): The number of epochs to train for.
         optimizer (torch.optim.Optimizer): The optimizer to use.
         criterion (torch.nn.Module): The loss function to use.
-        learning_rate_scheduler (torch.optim.lr_scheduler._LRScheduler): The
-            learning rate scheduler to use.
         device (torch.device): The device to use for training.
     Returns:
         None
