@@ -16,11 +16,11 @@ class Model(torch.nn.Module):
             num_classes: The number of output classes.
         """
         super(Model, self).__init__()
-        self.conv1 = nn.Conv2d(num_channels, 6, kernel_size=5, stride=2)
-        self.conv2 = nn.Conv2d(6, 16, kernel_size=5, stride=2)
-        self.bn = nn.BatchNorm2d(16)
-        self.fc1 = nn.Linear(16 * 5 * 5, 100)
-        self.fc2 = nn.Linear(100, num_classes)
+        self.conv1 = nn.Conv2d(num_channels, 6, kernel_size=5)
+        self.conv2 = nn.Conv2d(6, 20, kernel_size=5)
+        self.bn = nn.BatchNorm2d(20)
+        self.fc1 = nn.Linear(20 * 5 * 5, 125)
+        self.fc2 = nn.Linear(125, num_classes)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """
@@ -30,9 +30,9 @@ class Model(torch.nn.Module):
         Returns:
             The output of the network.
         """
-        x = F.relu(self.conv1(x))
-        x = F.relu(self.bn(self.conv2(x)))
-        x = x.view(-1, 16 * 5 * 5)
+        x = F.max_pool2d(F.relu(self.conv1(x)), 2)
+        x = F.max_pool2d(F.relu(self.bn(self.conv2(x))), 2)
+        x = x.view(-1, 20 * 5 * 5)
         x = F.relu(self.fc1(x))
         x = self.fc2(x)
         return x
