@@ -16,9 +16,9 @@ class Model(torch.nn.Module):
             num_classes: The number of output classes.
         """
         super(Model, self).__init__()
-        self.conv1 = nn.Conv2d(num_channels, 6, kernel_size=5)
-        self.bn1 = nn.BatchNorm2d(6)
-        self.conv2 = nn.Conv2d(6, 20, kernel_size=5)
+        self.conv1 = nn.Conv2d(num_channels, 8, kernel_size=5)
+        self.bn1 = nn.BatchNorm2d(8)
+        self.conv2 = nn.Conv2d(8, 20, kernel_size=5)
         self.bn2 = nn.BatchNorm2d(20)
         self.fc1 = nn.Linear(20 * 5 * 5, 125)
         self.fc2 = nn.Linear(125, num_classes)
