@@ -54,7 +54,7 @@ class Agent:
         self.optimizer = torch.optim.Adam(self.q_net.parameters(), lr=0.01)
         self.last_observation = None
         self.last_action = None
-        self.epsilon = 0.01
+        self.epsilon = 0.05
         self.discount = 0.9
         self.episodes = 0
 
@@ -72,11 +72,11 @@ class Agent:
             return self.last_action
         with torch.no_grad():
             q_pred = self.q_net(torch.from_numpy(observation).type(torch.float32))
-            if self.episodes < 1000:
+            if self.episodes < 200:
                 p = torch.softmax(q_pred, 0).numpy()
                 self.last_action = np.random.choice(self.action_space.n, p=p)
             else:
-                self.last_action = q_pred.argmax()
+                self.last_action = q_pred.argmax().item()
             return self.last_action
 
     def learn(
@@ -114,3 +114,7 @@ class Agent:
             self.last_observation = None
             self.last_action = None
             self.episodes += 1
+            if self.episodes == 20:
+                self.epsilon = 0.02
+            elif self.episodes == 100:
+                self.epsilon = 0.01
